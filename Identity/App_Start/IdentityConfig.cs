@@ -35,7 +35,7 @@ namespace Identity.App_Start
                 TokenEndpointPath = new PathString("/oauth2/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
                 Provider = new OAuthAuthorizationToroProvider(),
-                AccessTokenFormat = new ToroJwtFormat(issuer, secret),
+                AccessTokenFormat = new CustomJwtFormat(issuer, secret),
                 RefreshTokenProvider = new ToroRefreshTokenProvider(),                
             });
         }

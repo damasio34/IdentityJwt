@@ -7,13 +7,13 @@ using Thinktecture.IdentityModel.Tokens;
 
 namespace Identity.Identity
 {
-    public class ToroJwtFormat : ISecureDataFormat<AuthenticationTicket>
+    public class CustomJwtFormat : ISecureDataFormat<AuthenticationTicket>
     {
         private readonly byte[] _secret = default(byte[]);
         private readonly string _issuer = string.Empty;
         private readonly string _audience = string.Empty;
 
-        public ToroJwtFormat(string issuer, byte[] secret)
+        public CustomJwtFormat(string issuer, byte[] secret)
         {
             this._issuer = issuer;
             this._secret = secret;

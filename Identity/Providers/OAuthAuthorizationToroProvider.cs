@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
-using Identity.Proxys;
 using Identity.Model;
 using System.Security.Claims;
 using Identity.Identity;
@@ -14,13 +13,10 @@ namespace Identity.Providers
     public class OAuthAuthorizationToroProvider : OAuthAuthorizationServerProvider
     {        
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
-        {                        
-            var sessionProxyMock = new SessionProxyMock();
-            var loginResult = sessionProxyMock.Login(context.UserName, context.Password);
-
+        {
             //var loginResult = new SessionService().Login(context.UserName, context.Password);
 
-            if (loginResult == null)
+            if (context.UserName != null && context.Password != null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
@@ -32,8 +28,6 @@ namespace Identity.Providers
             var properties = CreateProperties("");
             var ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
-
-            SessionIdStore.AddSessionId(new Token("", DateTime.Now.Add(context.Options.AccessTokenExpireTimeSpan)), loginResult.Token);
         }
 
         public static Claim CreateClaim(string type, string value)
